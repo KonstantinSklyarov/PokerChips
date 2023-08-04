@@ -23,15 +23,16 @@ class MainActivity : AppCompatActivity() {
     var currentBet: Int = 0
     val chipValues = listOf(5, 10, 25, 50, 100)
     var currentAnimation: ObjectAnimator? = null
+    var button10 = com.example.pokerchips.DefaultButton(findViewById<ImageButton>(R.id.bet10), this, 10)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val imageView: ImageView = findViewById(R.id.prefabImageBet5)
-        var button = com.example.pokerchips.DefaultButton(findViewById<ImageButton>(R.id.bet10), this, 10)
         val betButtons = listOf(
             findViewById<ImageButton>(R.id.bet5),
-            button.imageButton,
+            button10.imageButton,
             findViewById<ImageButton>(R.id.bet25),
             findViewById<ImageButton>(R.id.bet50),
             findViewById<ImageButton>(R.id.bet100)
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     updateButtonStates()
                     val imageView: ImageView = findViewById(R.id.prefabImageBet5)
                     val duplicatedImageView: ImageView = createImageViewCopy(this, imageView)
-                    chipsPrefabs.add(duplicatedImageView)
+                    chipsPrefabs.add(button10.copyImage)
                     animateAndDisappear(chipsPrefabs.last())
                 }
                 if (playerChipsCount <= chipValue) {
@@ -177,4 +178,5 @@ class MainActivity : AppCompatActivity() {
 
         return newImageView
     }
+
 }

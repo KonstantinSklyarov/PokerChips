@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.jar.Attributes
 
 class DefaultButton(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int) {
-    var copyImage: ImageView? = null
+    public var copyImage: ImageView = ImageView(this.appCompatActivity)
     init {
-        copyImage = ImageView(appCompatActivity)
         var draw: Drawable = imageButton.drawable
         draw.alpha = draw.alpha / 2
         copyImage!!.setImageDrawable(draw)
