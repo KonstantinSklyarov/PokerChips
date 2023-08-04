@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     var currentBet: Int = 0
     var currentAnimation: ObjectAnimator? = null
 
-
+    //Лошара
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
