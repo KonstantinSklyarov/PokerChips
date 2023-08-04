@@ -18,10 +18,8 @@ import android.widget.ImageView
 
 class MainActivity : AppCompatActivity() {
 
-    class chip(chipValue: Int = 0, imageView: ImageView)
     var playerChipsCount: Int = 500
     var currentBet: Int = 0
-    val chipValues = listOf(5, 10, 25, 50, 100)
     var currentAnimation: ObjectAnimator? = null
 
 
@@ -77,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                         currentAnimation = createAlphaAnimation(chip.imageButton)
                         currentAnimation?.start()
                         updateButtonStates()
+                        animateAndDisappear(chip.copyImage)
                     }
                     if (playerChipsCount <= chip.chipValue) {
                         currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
