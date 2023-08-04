@@ -12,7 +12,6 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ImageView
 
@@ -67,6 +66,8 @@ class MainActivity : AppCompatActivity() {
         fun setupButtonChipClickListeners() {
             for (chip in betChips) {
                 chip.imageButton.setOnClickListener() {
+                    currentAnimation = createAlphaAnimation(chip.imageButton)
+                    currentAnimation?.start()
                     if (playerChipsCount >= chip.chipValue) {
                         betChip(chip.chipValue)
                         refreshTextAfterBet()
@@ -84,8 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setupButtonChipClickListeners()
-
-
         val chipsPrefabs = mutableListOf<ImageView>()
 
         val leftButton: Button = findViewById(R.id.leftButton)
@@ -163,7 +162,7 @@ class MainActivity : AppCompatActivity() {
 
                         // Удаляем объект после завершения анимации
                         val parent = view.parent as ViewGroup
-                        parent.removeView(view)
+                        //parent.removeView(view)
                     }
                 })
 
