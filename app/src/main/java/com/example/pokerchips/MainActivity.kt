@@ -69,8 +69,6 @@ class MainActivity : AppCompatActivity() {
         fun setupButtonChipClickListeners() {
             for (chip in betChips) {
                 chip.imageButton.setOnClickListener() {
-                    currentAnimation = createAlphaAnimation(chip.imageButton)
-                    currentAnimation?.start()
                     if (playerChipsCount >= chip.chipValue) {
                         betChip(chip.chipValue)
                         refreshTextAfterBet()
@@ -86,6 +84,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        setupButtonChipClickListeners()
+
 
         val chipsPrefabs = mutableListOf<ImageView>()
 
