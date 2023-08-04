@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ImageView
+import com.example.pokerchips.DefaultButton
 
 class MainActivity : AppCompatActivity() {
     class chip(chipValue: Int = 0, imageView: ImageView)
@@ -27,9 +28,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val imageView: ImageView = findViewById(R.id.prefabImageBet5)
+        var button = com.example.pokerchips.DefaultButton(findViewById<ImageButton>(R.id.bet10), this, 10)
         val betButtons = listOf(
             findViewById<ImageButton>(R.id.bet5),
-            findViewById<ImageButton>(R.id.bet10),
+            button.imageButton,
             findViewById<ImageButton>(R.id.bet25),
             findViewById<ImageButton>(R.id.bet50),
             findViewById<ImageButton>(R.id.bet100)
