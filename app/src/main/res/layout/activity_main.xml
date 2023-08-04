@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/prefabImageBet5"
+        android:layout_width="73sp"
+        android:layout_height="73sp"
+        app:layout_constraintBottom_toBottomOf="@+id/betWindow"
+        app:layout_constraintStart_toStartOf="@+id/betWindow"
+        app:srcCompat="@drawable/chip5" />
+
+    <TextView
+        android:id="@+id/activTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/activTurn"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="376sp"
+        android:layout_height="80sp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/left_button"
+            android:text="@string/check"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="20sp" />
+
+        <Button
+            android:id="@+id/centerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5sp"
+            android:layout_marginRight="5sp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/centre_button"
+            android:onClick="raiseButtonClick"
+            android:text="@string/raise"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="20sp" />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="@color/right_button"
+            android:text="@string/pass"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="20sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/currentBetText"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="@string/currentBet"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/betWindow"
+        android:layout_width="376sp"
+        android:layout_height="75sp"
+        android:layout_marginBottom="5sp"
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/chips"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2sp"
+            android:layout_marginBottom="2sp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/bet5"
+                android:layout_width="198sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="Bet 5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/chip5" />
+
+
+            <ImageButton
+                android:id="@+id/bet10"
+                android:layout_width="198sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="Bet 10"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/chip10" />
+
+            <ImageButton
+                android:id="@+id/bet25"
+                android:layout_width="198sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="Bet 5"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/chip25_middle" />
+
+            <ImageButton
+                android:id="@+id/bet50"
+                android:layout_width="198sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="Bet 5"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/chip50" />
+
+            <ImageButton
+                android:id="@+id/bet100"
+                android:layout_width="198sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00FFFFFF"
+                android:contentDescription="Bet 5"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/chip100" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/playerChipsCountText"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginBottom="92dp"
+        android:gravity="center"
+        android:text="@string/playerChipsCount"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

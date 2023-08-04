@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">PokerChips</string>
+    <string name="check">Отмена</string>
+    <string name="raise">Колл</string>
+    <string name="pass">Пас</string>
+    <string name="currentBet">0</string>
+    <string name="chipsCount">Фишке в наличии</string>
+    <string name="activTurn">Ваш ход!</string>
+    <string name="chip1">5</string>
+    <string name="chip10">10</string>
+    <string name="chips25">25</string>
+    <string name="chips50">50</string>
+    <string name="chips100">100</string>
+    <string name="playerChipsCount">0</string>
+
+</resources>
