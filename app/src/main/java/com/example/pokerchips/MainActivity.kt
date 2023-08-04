@@ -15,32 +15,34 @@ import android.view.ViewTreeObserver
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.ImageView
-import com.example.pokerchips.DefaultButton
 
 class MainActivity : AppCompatActivity() {
+
     class chip(chipValue: Int = 0, imageView: ImageView)
     var playerChipsCount: Int = 500
     var currentBet: Int = 0
     val chipValues = listOf(5, 10, 25, 50, 100)
     var currentAnimation: ObjectAnimator? = null
-    var button10 = com.example.pokerchips.DefaultButton(findViewById<ImageButton>(R.id.bet10), this, 10)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val imageView: ImageView = findViewById(R.id.prefabImageBet5)
-        val betButtons = listOf(
-            findViewById<ImageButton>(R.id.bet5),
-            button10.imageButton,
-            findViewById<ImageButton>(R.id.bet25),
-            findViewById<ImageButton>(R.id.bet50),
-            findViewById<ImageButton>(R.id.bet100)
+        var chip5 = chip(findViewById(R.id.bet5), this, 5)
+        var chip10 = chip(findViewById(R.id.bet10), this, 10)
+        var chip25 = chip(findViewById(R.id.bet25), this, 25)
+        var chip50 = chip(findViewById(R.id.bet50), this, 50)
+        var chip100 = chip(findViewById(R.id.bet100), this, 100)
+
+        val betChips = listOf(
+            chip5,
+            chip10,
+            chip25,
+            chip50,
+            chip100
         )
 
-        val chipsPrefabs = mutableListOf<ImageView>()
-
-        val leftButton: Button = findViewById(R.id.leftButton)
         var currentBetText: TextView = findViewById(R.id.currentBetText)
         var playerChipsCountText: TextView = findViewById(R.id.playerChipsCountText)
         playerChipsCountText.text = playerChipsCount.toString()
@@ -54,43 +56,65 @@ class MainActivity : AppCompatActivity() {
             currentBetText.text = currentBet.toString()
             playerChipsCountText.text = playerChipsCount.toString()
         }
-        fun updateButtonStates() {
-            for (i in 0 until betButtons.size) {
-                val chipValue = chipValues[i]
-                val isEnabled = playerChipsCount >= chipValue
-                val alpha = if (isEnabled) 1.0f else 0.5f
 
-                betButtons[i].isEnabled = isEnabled
-                betButtons[i].alpha = alpha
+        fun updateButtonStates() {
+            for (chip in betChips)  {
+                val isEnabled = playerChipsCount >= chip.chipValue
+                val alpha = if (isEnabled) 1.0f else 0.5f
+                chip.imageButton.isEnabled = isEnabled
+                chip.imageButton.alpha = alpha
             }
         }
-        fun onChipButtonClick(button: ImageButton) {
-            val index = betButtons.indexOf(button)
-            if (index != -1) {
-                val chipValue = chipValues[index]
-                if (playerChipsCount >= chipValue) {
-                    betChip(chipValue)
-                    refreshTextAfterBet()
-                    button.alpha = 0.5f
-                    currentAnimation = createAlphaAnimation(button)
+
+        fun setupButtonChipClickListeners() {
+            for (chip in betChips) {
+                chip.imageButton.setOnClickListener() {
+                    currentAnimation = createAlphaAnimation(chip.imageButton)
                     currentAnimation?.start()
-                    updateButtonStates()
-                    val imageView: ImageView = findViewById(R.id.prefabImageBet5)
-                    val duplicatedImageView: ImageView = createImageViewCopy(this, imageView)
-                    chipsPrefabs.add(button10.copyImage)
-                    animateAndDisappear(chipsPrefabs.last())
-                }
-                if (playerChipsCount <= chipValue) {
-                    currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+                    if (playerChipsCount >= chip.chipValue) {
+                        betChip(chip.chipValue)
+                        refreshTextAfterBet()
+                        chip.imageButton.alpha = 0.5f
+                        animateAndDisappear(chip.copyImage)
+                        currentAnimation = createAlphaAnimation(chip.imageButton)
+                        currentAnimation?.start()
+                        updateButtonStates()
+                    }
+                    if (playerChipsCount <= chip.chipValue) {
+                        currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+                    }
                 }
             }
         }
-        updateButtonStates()
-        for (button in betButtons) {
-            button.setOnClickListener {
-                onChipButtonClick(button)
-            }
-        }
+
+        val chipsPrefabs = mutableListOf<ImageView>()
+
+        val leftButton: Button = findViewById(R.id.leftButton)
+
+
+
+//        fun onChipButtonClick(button: ImageButton) {
+//            val index = betButtons.indexOf(button)
+//            if (index != -1) {
+//                val chipValue = chipValues[index]
+//                if (playerChipsCount >= chipValue) {
+//                    betChip(chipValue)
+//                    refreshTextAfterBet()
+//                    button.alpha = 0.5f
+//                    currentAnimation = createAlphaAnimation(button)
+//                    currentAnimation?.start()
+//                    updateButtonStates()
+//                    val imageView: ImageView = findViewById(R.id.prefabImageBet5)
+//                    val duplicatedImageView: ImageView = createImageViewCopy(this, imageView)
+//                    //hipsPrefabs.add(testImage)
+//                    animateAndDisappear(testImage)
+//                }
+//                if (playerChipsCount <= chipValue) {
+//                    currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+//                }
+//            }
+//        }
+
         leftButton.setOnClickListener {
             if (leftButton.text == "Ставка") {
                 leftButton.text = "Отмена"

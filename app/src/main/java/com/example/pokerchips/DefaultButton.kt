@@ -8,13 +8,12 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.jar.Attributes
 
-class DefaultButton(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int) {
+class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int) {
     public var copyImage: ImageView = ImageView(this.appCompatActivity)
     init {
         var draw: Drawable = imageButton.drawable
-        draw.alpha = draw.alpha / 2
+        //draw.alpha = draw.alpha / 2
         copyImage!!.setImageDrawable(draw)
-
     }
 
 }
