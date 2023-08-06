@@ -21,12 +21,12 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
     //Высота экрана
     var height = appCompatActivity.resources.displayMetrics.heightPixels
     //Координата левого края полоски с фишками
-    var xCoord = appCompatActivity.resources.displayMetrics.widthPixels - 376*scale
+    var xCoord = appCompatActivity.resources.displayMetrics.widthPixels - 382*scale
 
     val imageDefault = getChip()
     var chipSet = ArrayList<ImageView>()
     init {
-
+        imageDefault.alpha = 0f
     }
 
     fun clearChip() {
@@ -42,14 +42,15 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         newImage.setImageDrawable(imageButton.drawable.mutate())
         when (chipValue) {
             5 -> newImage.x = xCoord
-            10 -> newImage.x = xCoord + (73 * scale)
-            25 -> newImage.x = xCoord + (73 * scale) * 2
-            50 -> newImage.x = xCoord + (73 * scale) * 3
-            100 -> newImage.x = xCoord + (73 * scale) * 4
+            10 -> newImage.x = xCoord + (75 * scale)
+            25 -> newImage.x = xCoord + (75 * scale) * 2
+            50 -> newImage.x = xCoord + (75 * scale) * 3
+            100 -> newImage.x = xCoord + (75 * scale) * 4
         }
-        newImage.y = height - (16 + 80 + 5 + 75) * scale
+        //newImage.x += (-19 * scale)
+        newImage.y = height - (16 + 80 + 5 + 75) * scale //-20 * scale
         newImage.requestLayout()
-        appCompatActivity.addContentView(newImage, ViewGroup.LayoutParams((73 * scale).toInt(), (73 * scale).toInt()))
+        appCompatActivity.addContentView(newImage, ViewGroup.LayoutParams((75 * scale).toInt(), (75 * scale).toInt()))
         java.util.concurrent.TimeUnit.MILLISECONDS.sleep(20)
         return newImage
     }
@@ -61,7 +62,7 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         val yCenter = height / 2 - 25 * scale
         //Сколько длится анимация
         val animDur = 1000L
-        val animation = TranslateAnimation((-19 * scale), xCenter - imageDefault.x, (-20 * scale), yCenter - imageDefault.y).apply {
+        val animation = TranslateAnimation(0f, xCenter - imageDefault.x, 0f, yCenter - imageDefault.y).apply {
             duration = animDur
         }
         var alpha  = AlphaAnimation(1f, 0f).apply {
