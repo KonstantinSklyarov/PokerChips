@@ -91,37 +91,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setupButtonChipClickListeners()
-        val chipsPrefabs = mutableListOf<ImageView>()
 
         val leftButton: Button = findViewById(R.id.leftButton)
-
-
-
-//        fun onChipButtonClick(button: ImageButton) {
-//            val index = betButtons.indexOf(button)
-//            if (index != -1) {
-//                val chipValue = chipValues[index]
-//                if (playerChipsCount >= chipValue) {
-//                    betChip(chipValue)
-//                    refreshTextAfterBet()
-//                    button.alpha = 0.5f
-//                    currentAnimation = createAlphaAnimation(button)
-//                    currentAnimation?.start()
-//                    updateButtonStates()
-//                    val imageView: ImageView = findViewById(R.id.prefabImageBet5)
-//                    val duplicatedImageView: ImageView = createImageViewCopy(this, imageView)
-//                    //hipsPrefabs.add(testImage)
-//                    animateAndDisappear(testImage)
-//                }
-//                if (playerChipsCount <= chipValue) {
-//                    currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
-//                }
-//            }
-//        }
+        val centerButton: Button = findViewById(R.id.centerButton)
+        val rightButton: Button = findViewById(R.id.rightButton)
 
         leftButton.setOnClickListener {
             if (leftButton.text == "Ставка") {
                 leftButton.text = "Отмена"
+                toggleBetWindowVisibility()
             } else {
                 leftButton.text = "Ставка"
                 playerChipsCount += currentBet
@@ -129,8 +107,35 @@ class MainActivity : AppCompatActivity() {
                 betChips.map { c: chip -> c.clearChip() }
                 refreshTextAfterBet()
                 updateButtonStates()
+                toggleBetWindowVisibility()
+
             }
         }
+
+        centerButton.setOnClickListener {
+
+        }
+
+        rightButton.setOnClickListener{
+            leftButton.alpha = 0.5f
+            leftButton.isEnabled = false
+            centerButton.alpha = 0.5f
+            centerButton.isEnabled = false
+            rightButton.alpha = 0.5f
+            rightButton.isEnabled = false
+            togglePassConfirmVisibility()
+            if (leftButton.text == "Отмена") {
+                leftButton.text = "Ставка"
+                playerChipsCount += currentBet
+                currentBet = 0
+                toggleBetWindowVisibility()
+                refreshTextAfterBet()
+
+            }
+        }
+        toggleBetWindowVisibility()
+        togglePassConfirmVisibility()
+
     }
     fun createAlphaAnimation(view: View): ObjectAnimator {
         val alphaAnimation = ObjectAnimator.ofFloat(view, "alpha", 0.5f, 1.0f)
@@ -209,4 +214,27 @@ class MainActivity : AppCompatActivity() {
         return newImageView
     }
 
+    fun toggleBetWindowVisibility() {
+        val betWindow: LinearLayout = findViewById(R.id.betWindow) // Замените на ваш реальный id
+
+        if (betWindow.visibility == View.VISIBLE) {
+            // Если видимо, скрываем
+            betWindow.visibility = View.GONE
+        } else {
+            // Если скрыто, показываем
+            betWindow.visibility = View.VISIBLE
+        }
+    }
+
+    fun togglePassConfirmVisibility() {
+        val passConfirm: LinearLayout = findViewById(R.id.passConfirm) // Замените на ваш реальный id
+
+        if (passConfirm.visibility == View.VISIBLE) {
+            // Если видимо, скрываем
+            passConfirm.visibility = View.GONE
+        } else {
+            // Если скрыто, показываем
+            passConfirm.visibility = View.VISIBLE
+        }
+    }
 }

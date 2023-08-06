@@ -69,6 +69,7 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         var alpha  = AlphaAnimation(1f, 0f).apply {
             duration = animDur;
         }
+
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {}
 
