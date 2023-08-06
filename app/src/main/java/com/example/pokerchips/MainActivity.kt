@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import android.widget.ImageView
+import android.widget.LinearLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,12 +26,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val cLayout = findViewById<LinearLayout>(R.id.chips)
         val imageView: ImageView = findViewById(R.id.prefabImageBet5)
-        var chip5 = chip(findViewById(R.id.bet5), this, 5)
-        var chip10 = chip(findViewById(R.id.bet10), this, 10)
-        var chip25 = chip(findViewById(R.id.bet25), this, 25)
-        var chip50 = chip(findViewById(R.id.bet50), this, 50)
-        var chip100 = chip(findViewById(R.id.bet100), this, 100)
+        var chip5 = chip(findViewById(R.id.bet5), this, 5, cLayout)
+        var chip10 = chip(findViewById(R.id.bet10), this, 10, cLayout)
+        var chip25 = chip(findViewById(R.id.bet25), this, 25, cLayout)
+        var chip50 = chip(findViewById(R.id.bet50), this, 50, cLayout)
+        var chip100 = chip(findViewById(R.id.bet100), this, 100, cLayout)
 
         val betChips = listOf(
             chip5,

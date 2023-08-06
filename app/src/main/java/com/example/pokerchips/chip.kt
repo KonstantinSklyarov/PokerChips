@@ -10,12 +10,13 @@ import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.NullPointerException
 import java.util.ArrayList
 
 //Лошара ты
-class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int) {
+class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int, var cLayout: LinearLayout) {
     //Значение sp
     var scale = appCompatActivity.resources.displayMetrics.scaledDensity
     //Высота экрана
