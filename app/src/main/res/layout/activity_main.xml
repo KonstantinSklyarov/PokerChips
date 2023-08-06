@@ -94,7 +94,7 @@
         android:id="@+id/betWindow"
         android:layout_width="376sp"
         android:layout_height="75sp"
-        android:layout_marginBottom="5sp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/rounded_background"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"

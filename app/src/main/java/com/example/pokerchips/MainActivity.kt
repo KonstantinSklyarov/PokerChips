@@ -64,24 +64,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun setupButtonChipClickListeners() {
-            for (chip in betChips) {
-                chip.imageButton.setOnClickListener() {
-                    currentAnimation = createAlphaAnimation(chip.imageButton)
-                    currentAnimation?.start()
-                    if (playerChipsCount >= chip.chipValue) {
-                        betChip(chip.chipValue)
-                        refreshTextAfterBet()
-                        chip.imageButton.alpha = 0.5f
-                        animateAndDisappear(chip.copyImage)
+            try {
+                for (chip in betChips) {
+                    chip.imageButton.setOnClickListener() {
                         currentAnimation = createAlphaAnimation(chip.imageButton)
                         currentAnimation?.start()
-                        updateButtonStates()
-                        animateAndDisappear(chip.copyImage)
-                    }
-                    if (playerChipsCount <= chip.chipValue) {
-                        currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+                        if (playerChipsCount >= chip.chipValue) {
+                            betChip(chip.chipValue)
+                            refreshTextAfterBet()
+                            chip.imageButton.alpha = 0.5f
+                            //animateAndDisappear(chip.getChip())
+                            currentAnimation = createAlphaAnimation(chip.imageButton)
+                            currentAnimation?.start()
+                            updateButtonStates()
+                            chip.movingToCenter()
+                        }
+                        if (playerChipsCount <= chip.chipValue) {
+                            currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+                        }
                     }
                 }
+            } catch (nul: NullPointerException) {
+                println(nul.message)
             }
         }
         setupButtonChipClickListeners()
@@ -120,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                 leftButton.text = "Ставка"
                 playerChipsCount += currentBet
                 currentBet = 0
+                betChips.map { c: chip -> c.clearChip() }
                 refreshTextAfterBet()
                 updateButtonStates()
             }
@@ -127,6 +132,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun createAlphaAnimation(view: View): ObjectAnimator {
         val alphaAnimation = ObjectAnimator.ofFloat(view, "alpha", 0.5f, 1.0f)
+        alphaAnimation
         alphaAnimation.duration = 200
         return alphaAnimation
     }

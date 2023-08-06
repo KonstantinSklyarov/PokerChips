@@ -1,5 +1,8 @@
 package com.example.pokerchips
 
+import android.icu.util.TimeUnit
+import android.provider.ContactsContract.CommonDataKinds.Im
+import android.util.ArraySet
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -8,6 +11,8 @@ import android.view.animation.TranslateAnimation
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.NullPointerException
+import java.util.ArrayList
 
 //Лошара ты
 class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int) {
@@ -18,6 +23,19 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
     //Координата левого края полоски с фишками
     var xCoord = appCompatActivity.resources.displayMetrics.widthPixels - 376*scale
 
+    val imageDefault = getChip()
+    var chipSet = ArrayList<ImageView>()
+    init {
+
+    }
+
+    fun clearChip() {
+        for (chip: ImageView in chipSet) {
+            if (chip != null && chip.parent != null) {
+                (chip.parent as ViewGroup).removeView(chip)
+            }
+        }
+    }
     //Получение нового изображения фишки в месте нахождения оригинала
     fun getChip() : ImageView {
         val newImage = ImageView(this.appCompatActivity)
@@ -32,6 +50,7 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         newImage.y = height - (16 + 80 + 5 + 75) * scale
         newImage.requestLayout()
         appCompatActivity.addContentView(newImage, ViewGroup.LayoutParams((73 * scale).toInt(), (73 * scale).toInt()))
+        java.util.concurrent.TimeUnit.MILLISECONDS.sleep(20)
         return newImage
     }
     //Анимация движения фишки к центру
@@ -42,7 +61,7 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         val yCenter = height / 2 - 25 * scale
         //Сколько длится анимация
         val animDur = 1000L
-        val animation = TranslateAnimation((-19 * scale), xCenter - imageView.x, (-20 * scale), yCenter - imageView.y).apply {
+        val animation = TranslateAnimation((-19 * scale), xCenter - imageDefault.x, (-20 * scale), yCenter - imageDefault.y).apply {
             duration = animDur
         }
         var alpha  = AlphaAnimation(1f, 0f).apply {
@@ -52,8 +71,10 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
             override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
-                val parent = imageView.parent as? ViewGroup
-                parent?.removeView(imageView)
+                imageView.x = xCenter
+                imageView.y = yCenter
+                imageView.alpha = 0f
+                chipSet.add(imageView)
             }
 
             override fun onAnimationRepeat(animation: Animation?) {}
@@ -62,8 +83,6 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
             override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
-                val parent = imageView.parent as? ViewGroup
-                parent?.removeView(imageView)
             }
 
             override fun onAnimationRepeat(animation: Animation?) {}
