@@ -1,7 +1,9 @@
 package com.example.pokerchips
 
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.animation.AnimationSet
 import android.view.animation.TranslateAnimation
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -43,6 +45,9 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         val animation = TranslateAnimation((-19 * scale), xCenter - imageView.x, (-20 * scale), yCenter - imageView.y).apply {
             duration = animDur
         }
+        var alpha  = AlphaAnimation(1f, 0f).apply {
+            duration = animDur;
+        }
         animation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation?) {}
 
@@ -53,7 +58,21 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
 
             override fun onAnimationRepeat(animation: Animation?) {}
         })
-        imageView.startAnimation(animation)
+        alpha.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                val parent = imageView.parent as? ViewGroup
+                parent?.removeView(imageView)
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+        val animationSet = AnimationSet(true)
+        animationSet.addAnimation(animation)
+        animationSet.addAnimation(alpha)
+        imageView.startAnimation(animationSet)
+        //imageView.startAnimation(animation)
 
     }
 
