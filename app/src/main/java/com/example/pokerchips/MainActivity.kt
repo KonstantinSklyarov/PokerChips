@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val cLayout = findViewById<LinearLayout>(R.id.chips)
-        val imageView: ImageView = findViewById(R.id.prefabImageBet5)
         var chip5 = chip(findViewById(R.id.bet5), this, 5, cLayout)
         var chip10 = chip(findViewById(R.id.bet10), this, 10, cLayout)
         var chip25 = chip(findViewById(R.id.bet25), this, 25, cLayout)
