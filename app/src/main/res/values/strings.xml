@@ -22,6 +22,7 @@
     <string name="playerName3">Даниил</string>
     <string name="playerName4">Даниил</string>
     <string name="playerName5">Даниил</string>
+    <string name="passConfirm">Вы действительно хотите сбросить карты?</string>
 
 
 </resources>
