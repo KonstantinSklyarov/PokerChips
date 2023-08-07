@@ -3,23 +3,21 @@ package com.example.pokerchips
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
+import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.TextView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
-import android.view.GestureDetector
-import android.view.MotionEvent
 import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
@@ -27,22 +25,53 @@ class MainActivity : AppCompatActivity() {
     var playerChipsCount: Int = 500
     var currentBet: Int = 0
     var currentAnimation: ObjectAnimator? = null
+    var currentBetText: TextView? = null
+    var playerChipsCountText: TextView? = null
+    var betChips = listOf<Chip>()
 
+    fun refreshTextAfterBet() {
+        currentBetText?.text = currentBet.toString()
+        playerChipsCountText?.text = playerChipsCount.toString()
+    }
 
-    //Лошара
+    fun betChip(chip: Chip) : Boolean {
+        if (playerChipsCount >= chip.chipValue) {
+            playerChipsCount -= chip.chipValue
+            currentBet += chip.chipValue
+            refreshTextAfterBet()
+            if (playerChipsCount < 100) {
+                betChips.get(4).imageButton.alpha = 0.5f
+            }
+            if (playerChipsCount < 50) {
+                betChips.get(3).imageButton.alpha = 0.5f
+            }
+            if (playerChipsCount < 25) {
+                betChips.get(2).imageButton.alpha = 0.5f
+            }
+            if (playerChipsCount < 10) {
+                betChips.get(1).imageButton.alpha = 0.5f
+            }
+            if (playerChipsCount < 5) {
+                betChips.get(0).imageButton.alpha = 0.5f
+            }
+            return true
+        }
+        return false
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        currentBetText = findViewById(R.id.currentBetText)
+        playerChipsCountText = findViewById(R.id.playerChipsCountText)
         var gestureDetector: GestureDetectorCompat
         val cLayout = findViewById<LinearLayout>(R.id.chips)
-        var chip5 = chip(findViewById(R.id.bet5), this, 5, cLayout)
-        var chip10 = chip(findViewById(R.id.bet10), this, 10, cLayout)
-        var chip25 = chip(findViewById(R.id.bet25), this, 25, cLayout)
-        var chip50 = chip(findViewById(R.id.bet50), this, 50, cLayout)
-        var chip100 = chip(findViewById(R.id.bet100), this, 100, cLayout)
+        val chip5 = Chip(findViewById(R.id.bet5), this, 5, cLayout)
+        val chip10 = Chip(findViewById(R.id.bet10), this, 10, cLayout)
+        val chip25 = Chip(findViewById(R.id.bet25), this, 25, cLayout)
+        val chip50 = Chip(findViewById(R.id.bet50), this, 50, cLayout)
+        val chip100 = Chip(findViewById(R.id.bet100), this, 100, cLayout)
 
-        val betChips = listOf(
+        betChips = listOf(
             chip5,
             chip10,
             chip25,
@@ -50,19 +79,14 @@ class MainActivity : AppCompatActivity() {
             chip100
         )
 
-        var currentBetText: TextView = findViewById(R.id.currentBetText)
-        var playerChipsCountText: TextView = findViewById(R.id.playerChipsCountText)
-        playerChipsCountText.text = playerChipsCount.toString()
+        playerChipsCountText?.text = playerChipsCount.toString()
 
         fun betChip(chipValue: Int) {
             currentBet += chipValue
             playerChipsCount -= chipValue
 
         }
-        fun refreshTextAfterBet() {
-            currentBetText.text = currentBet.toString()
-            playerChipsCountText.text = playerChipsCount.toString()
-        }
+
 
         fun updateButtonStates() {
             for (chip in betChips)  {
@@ -74,60 +98,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+        @SuppressLint("ClickableViewAccessibility")
         fun setupButtonChipClickListeners() {
             try {
                 for (chip in betChips) {
-
-                    chip.imageButton.setOnTouchListener { _, event ->
-                        when (event.action) {
-                            MotionEvent.ACTION_DOWN -> {
-                                // Палец прикоснулся к кнопке (начало касания)
-                                return@setOnTouchListener true
-                            }
-                            MotionEvent.ACTION_MOVE -> {
-                                // Палец движется по кнопке
-                                return@setOnTouchListener true
-                            }
-                            MotionEvent.ACTION_UP -> {
-                                // Палец отпущен от кнопки (конец касания)
-                                if (wasSwipedUp(event)) {
-                                    currentAnimation = createAlphaAnimation(chip.imageButton)
-                                    currentAnimation?.start()
-                                    if (playerChipsCount >= chip.chipValue) {
-                                        betChip(chip.chipValue)
-                                        refreshTextAfterBet()
-                                        chip.imageButton.alpha = 0.5f
-                                        //animateAndDisappear(chip.getChip())
-                                        currentAnimation = createAlphaAnimation(chip.imageButton)
-                                        currentAnimation?.start()
-                                        updateButtonStates()
-                                        chip.movingToCenter()
-                                    }
-                                    if (playerChipsCount <= chip.chipValue) {
-                                        currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
-                                    }
-                                } else {
-                                    currentAnimation = createAlphaAnimation(chip.imageButton)
-                                    currentAnimation?.start()
-                                    if (playerChipsCount >= chip.chipValue) {
-                                        betChip(chip.chipValue)
-                                        refreshTextAfterBet()
-                                        chip.imageButton.alpha = 0.5f
-                                        //animateAndDisappear(chip.getChip())
-                                        currentAnimation = createAlphaAnimation(chip.imageButton)
-                                        currentAnimation?.start()
-                                        updateButtonStates()
-                                        chip.movingToCenter()
-                                    }
-                                    if (playerChipsCount <= chip.chipValue) {
-                                        currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
-                                    }
-                                }
-                                return@setOnTouchListener true
-                            }
-                            else -> return@setOnTouchListener false
-                        }
-                    }
+                    chip.imageButton.setOnTouchListener(ChipOnTouchListener(chip, this))
                 }
             } catch (nul: NullPointerException) {
                 println(nul.message)
@@ -149,7 +124,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 playerChipsCount += currentBet
                 currentBet = 0
-                betChips.map { c: chip -> c.clearChip() }
+                betChips.map { c: Chip -> c.clearChip() }
                 refreshTextAfterBet()
                 updateButtonStates()
                 toggleBetWindowVisibility()
@@ -313,11 +288,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun wasSwipedUp(event: MotionEvent): Boolean {
-        val deltaY = event.y - event.rawY // Разница между вертикальной координатой касания и глобальной координатой касания
 
-        val minSwipeDistance = 100 // Минимальное расстояние для определения свайпа вверх
-
-        return deltaY < -minSwipeDistance
-    }
 }
