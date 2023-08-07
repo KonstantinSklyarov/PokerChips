@@ -8,16 +8,19 @@
     android:background="@color/bg"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/passConfirm"
-        android:layout_width="382dp"
-        android:layout_height="285dp"
-        android:background="@drawable/rounded_background"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/currentBetText"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="320dp"
+        android:gravity="center"
+        android:text="@string/currentBet"
+        android:textColor="@color/white"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/players"
@@ -208,7 +211,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="376sp"
+        android:layout_width="375sp"
         android:layout_height="80sp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
@@ -218,7 +221,7 @@
 
         <Button
             android:id="@+id/leftButton"
-            android:layout_width="93dp"
+            android:layout_width="125sp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/left_button"
@@ -229,7 +232,7 @@
 
         <Button
             android:id="@+id/centerButton"
-            android:layout_width="87dp"
+            android:layout_width="125sp"
             android:layout_height="match_parent"
             android:layout_marginLeft="5sp"
             android:layout_marginRight="5sp"
@@ -243,7 +246,7 @@
 
         <Button
             android:id="@+id/rightButton"
-            android:layout_width="wrap_content"
+            android:layout_width="125sp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/right_button"
@@ -252,20 +255,6 @@
             android:textSize="20sp"
             app:cornerRadius="20sp" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/currentBetText"
-        android:layout_width="60dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="320dp"
-        android:gravity="center"
-        android:text="@string/currentBet"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/betWindow"
@@ -354,6 +343,69 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/passConfirmBg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/passConfirm"
+        android:layout_width="375sp"
+        android:layout_height="234sp"
+        android:background="@drawable/rounded_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/passConfirmBg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25sp"
+            android:gravity="center"
+            android:text="@string/passConfirm"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="340sp"
+            android:layout_height="70sp"
+            android:layout_marginTop="50sp"
+            android:gravity="bottom|center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/passConfirmNo"
+                android:layout_width="75sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/right_button"
+                android:text="Нет"
+                android:textSize="34sp" />
+
+            <Button
+                android:id="@+id/passConfirmYes"
+                android:layout_width="75sp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30sp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/centre_button"
+                android:text="Да"
+                android:textSize="34sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

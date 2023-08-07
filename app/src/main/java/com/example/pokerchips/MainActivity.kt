@@ -8,13 +8,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.core.view.GestureDetectorCompat
+import android.view.GestureDetector
+import android.view.MotionEvent
+import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,10 +28,13 @@ class MainActivity : AppCompatActivity() {
     var currentBet: Int = 0
     var currentAnimation: ObjectAnimator? = null
 
+
     //Лошара
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var gestureDetector: GestureDetectorCompat
         val cLayout = findViewById<LinearLayout>(R.id.chips)
         var chip5 = chip(findViewById(R.id.bet5), this, 5, cLayout)
         var chip10 = chip(findViewById(R.id.bet10), this, 10, cLayout)
@@ -64,24 +73,59 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         fun setupButtonChipClickListeners() {
             try {
                 for (chip in betChips) {
-                    chip.imageButton.setOnClickListener() {
-                        currentAnimation = createAlphaAnimation(chip.imageButton)
-                        currentAnimation?.start()
-                        if (playerChipsCount >= chip.chipValue) {
-                            betChip(chip.chipValue)
-                            refreshTextAfterBet()
-                            chip.imageButton.alpha = 0.5f
-                            //animateAndDisappear(chip.getChip())
-                            currentAnimation = createAlphaAnimation(chip.imageButton)
-                            currentAnimation?.start()
-                            updateButtonStates()
-                            chip.movingToCenter()
-                        }
-                        if (playerChipsCount <= chip.chipValue) {
-                            currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+
+                    chip.imageButton.setOnTouchListener { _, event ->
+                        when (event.action) {
+                            MotionEvent.ACTION_DOWN -> {
+                                // Палец прикоснулся к кнопке (начало касания)
+                                return@setOnTouchListener true
+                            }
+                            MotionEvent.ACTION_MOVE -> {
+                                // Палец движется по кнопке
+                                return@setOnTouchListener true
+                            }
+                            MotionEvent.ACTION_UP -> {
+                                // Палец отпущен от кнопки (конец касания)
+                                if (wasSwipedUp(event)) {
+                                    currentAnimation = createAlphaAnimation(chip.imageButton)
+                                    currentAnimation?.start()
+                                    if (playerChipsCount >= chip.chipValue) {
+                                        betChip(chip.chipValue)
+                                        refreshTextAfterBet()
+                                        chip.imageButton.alpha = 0.5f
+                                        //animateAndDisappear(chip.getChip())
+                                        currentAnimation = createAlphaAnimation(chip.imageButton)
+                                        currentAnimation?.start()
+                                        updateButtonStates()
+                                        chip.movingToCenter()
+                                    }
+                                    if (playerChipsCount <= chip.chipValue) {
+                                        currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+                                    }
+                                } else {
+                                    currentAnimation = createAlphaAnimation(chip.imageButton)
+                                    currentAnimation?.start()
+                                    if (playerChipsCount >= chip.chipValue) {
+                                        betChip(chip.chipValue)
+                                        refreshTextAfterBet()
+                                        chip.imageButton.alpha = 0.5f
+                                        //animateAndDisappear(chip.getChip())
+                                        currentAnimation = createAlphaAnimation(chip.imageButton)
+                                        currentAnimation?.start()
+                                        updateButtonStates()
+                                        chip.movingToCenter()
+                                    }
+                                    if (playerChipsCount <= chip.chipValue) {
+                                        currentAnimation?.cancel() // (если быстро кликать, то кнопка после блокировки станет обратно яркой, потому что запущенная с предыдущего клика анимация ещё идёт. Эта штука отменяет анимацию и даёт кнопке нормально заблокироваться)
+                                    }
+                                }
+                                return@setOnTouchListener true
+                            }
+                            else -> return@setOnTouchListener false
                         }
                     }
                 }
@@ -94,19 +138,22 @@ class MainActivity : AppCompatActivity() {
         val leftButton: Button = findViewById(R.id.leftButton)
         val centerButton: Button = findViewById(R.id.centerButton)
         val rightButton: Button = findViewById(R.id.rightButton)
+        val passConfirmNo: Button = findViewById(R.id.passConfirmNo)
+        val passConfirmYes: Button = findViewById(R.id.passConfirmYes)
+        val betWindow: LinearLayout = findViewById(R.id.betWindow)
+
 
         leftButton.setOnClickListener {
-            if (leftButton.text == "Ставка") {
-                leftButton.text = "Отмена"
+            if (betWindow.isVisible == false) {
                 toggleBetWindowVisibility()
             } else {
-                leftButton.text = "Ставка"
                 playerChipsCount += currentBet
                 currentBet = 0
                 betChips.map { c: chip -> c.clearChip() }
                 refreshTextAfterBet()
                 updateButtonStates()
                 toggleBetWindowVisibility()
+                refreshTextAfterBet()
 
             }
         }
@@ -116,6 +163,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         rightButton.setOnClickListener{
+            togglePassConfirmVisibility()
+            centerButton.isEnabled = false
+            leftButton.isEnabled = false
+            rightButton.isEnabled = false
+            if (betWindow.isVisible) {
+                toggleBetWindowVisibility()
+                refreshTextAfterBet()
+            }
+        }
+
+        passConfirmYes.setOnClickListener {
             leftButton.alpha = 0.5f
             leftButton.isEnabled = false
             centerButton.alpha = 0.5f
@@ -123,19 +181,27 @@ class MainActivity : AppCompatActivity() {
             rightButton.alpha = 0.5f
             rightButton.isEnabled = false
             togglePassConfirmVisibility()
+            refreshTextAfterBet()
             if (leftButton.text == "Отмена") {
                 leftButton.text = "Ставка"
                 playerChipsCount += currentBet
                 currentBet = 0
-                toggleBetWindowVisibility()
                 refreshTextAfterBet()
 
             }
         }
+
+        passConfirmNo.setOnClickListener {
+            togglePassConfirmVisibility()
+            centerButton.isEnabled = true
+            leftButton.isEnabled = true
+            rightButton.isEnabled = true
+        }
         toggleBetWindowVisibility()
         togglePassConfirmVisibility()
-
     }
+
+
     fun createAlphaAnimation(view: View): ObjectAnimator {
         val alphaAnimation = ObjectAnimator.ofFloat(view, "alpha", 0.5f, 1.0f)
         alphaAnimation
@@ -214,26 +280,44 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toggleBetWindowVisibility() {
+        val leftButton: Button = findViewById(R.id.leftButton)
         val betWindow: LinearLayout = findViewById(R.id.betWindow) // Замените на ваш реальный id
 
         if (betWindow.visibility == View.VISIBLE) {
             // Если видимо, скрываем
             betWindow.visibility = View.GONE
+            leftButton.text = "Ставка"
+            playerChipsCount += currentBet
+            currentBet = 0
         } else {
             // Если скрыто, показываем
             betWindow.visibility = View.VISIBLE
+            leftButton.text = "Назад"
         }
     }
 
     fun togglePassConfirmVisibility() {
-        val passConfirm: LinearLayout = findViewById(R.id.passConfirm) // Замените на ваш реальный id
-
+        val passConfirm: LinearLayout = findViewById(R.id.passConfirm)
+        val passConfirmBg: FrameLayout = findViewById(R.id.passConfirmBg)
         if (passConfirm.visibility == View.VISIBLE) {
             // Если видимо, скрываем
             passConfirm.visibility = View.GONE
+            passConfirmBg.visibility = View.GONE
+
         } else {
             // Если скрыто, показываем
             passConfirm.visibility = View.VISIBLE
+            passConfirmBg.visibility = View.VISIBLE
+            playerChipsCount += currentBet
+            currentBet = 0
         }
+    }
+
+    private fun wasSwipedUp(event: MotionEvent): Boolean {
+        val deltaY = event.y - event.rawY // Разница между вертикальной координатой касания и глобальной координатой касания
+
+        val minSwipeDistance = 100 // Минимальное расстояние для определения свайпа вверх
+
+        return deltaY < -minSwipeDistance
     }
 }

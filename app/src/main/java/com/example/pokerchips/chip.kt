@@ -1,8 +1,10 @@
 package com.example.pokerchips
 
+import android.content.Context
 import android.icu.util.TimeUnit
 import android.provider.ContactsContract.CommonDataKinds.Im
 import android.util.ArraySet
+import android.util.AttributeSet
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -29,6 +31,13 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
     init {
         imageDefault.alpha = 0f
     }
+
+    class MyCustomImageButton(context: Context, attrs: AttributeSet) : androidx.appcompat.widget.AppCompatImageButton(context, attrs) {
+        override fun performClick(): Boolean {
+            return super.performClick()
+        }
+    }
+
 
     fun clearChip() {
         for (chip: ImageView in chipSet) {
