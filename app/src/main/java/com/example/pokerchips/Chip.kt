@@ -1,9 +1,6 @@
 package com.example.pokerchips
 
 import android.content.Context
-import android.icu.util.TimeUnit
-import android.provider.ContactsContract.CommonDataKinds.Im
-import android.util.ArraySet
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
@@ -14,11 +11,11 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import java.lang.NullPointerException
 import java.util.ArrayList
 
 //Лошара ты
-class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int, var cLayout: LinearLayout) {
+class Chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int, var cLayout: LinearLayout) {
+
     //Значение sp
     var scale = appCompatActivity.resources.displayMetrics.scaledDensity
     //Высота экрана
@@ -65,7 +62,7 @@ class chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivit
         return newImage
     }
     //Анимация движения фишки к центру
-    fun movingToCenter() {
+     fun movingToCenter() {
         val imageView = getChip()
         //Координаты конечного местоположения
         val xCenter = appCompatActivity.resources.displayMetrics.widthPixels / 2f - 30 * scale
