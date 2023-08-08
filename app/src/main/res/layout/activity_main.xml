@@ -8,6 +8,17 @@
     android:background="@color/bg"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/groupButton"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/currentBetText"
         android:layout_width="60dp"
@@ -17,6 +28,7 @@
         android:text="@string/currentBet"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +41,7 @@
         android:layout_marginTop="65dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,7 +50,8 @@
             android:id="@+id/player1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/playerAvatar1"
@@ -203,6 +217,7 @@
         android:text="@string/activTurn"
         android:textColor="@color/white"
         android:textSize="24sp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,6 +230,7 @@
         android:layout_height="80sp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -263,6 +279,7 @@
         android:layout_marginBottom="5dp"
         android:background="@drawable/rounded_background"
         android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -340,15 +357,409 @@
         android:text="@string/playerChipsCount"
         android:textColor="@color/white"
         android:textSize="25sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/groupScreen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="60sp"
+        android:background="#80000000"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/groupScreenList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/playersListText"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:id="@+id/playersList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/bg"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/playerAvatarInList1"
+                        android:layout_width="124dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="5sp"
+                        android:layout_marginBottom="5sp"
+                        android:layout_weight="1"
+                        android:src="@drawable/default_player_avatar" />
+
+
+                    <LinearLayout
+                        android:layout_width="150sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/playerNameInList1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/playerName1"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/playerChipsCountTextInList1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/player1ChipCount"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/playerSettings1"
+                        android:layout_width="100sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginBottom="4sp"
+                        android:layout_weight="1"
+                        android:background="@color/bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cogwheel" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/bg"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/playerAvatarInList2"
+                        android:layout_width="124dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="5sp"
+                        android:layout_marginBottom="5sp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/default_player_avatar" />
+
+                    <LinearLayout
+                        android:layout_width="150sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/playerNameInList2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/playerName1"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/playerChipsCountTextInList2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/player1ChipCount"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/playerSettings2"
+                        android:layout_width="100sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginBottom="4sp"
+                        android:layout_weight="1"
+                        android:background="@color/bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cogwheel" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/bg"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/playerAvatarInList3"
+                        android:layout_width="124dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="5sp"
+                        android:layout_marginBottom="5sp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/default_player_avatar" />
+
+                    <LinearLayout
+                        android:layout_width="150sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/playerNameInList3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/playerName1"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/playerChipsCountTextInList3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/player1ChipCount"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/playerSettings3"
+                        android:layout_width="100sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginBottom="4sp"
+                        android:layout_weight="1"
+                        android:background="@color/bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cogwheel" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/bg"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/playerAvatarInList4"
+                        android:layout_width="124dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="5sp"
+                        android:layout_marginBottom="5sp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/default_player_avatar" />
+
+                    <LinearLayout
+                        android:layout_width="150sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/playerNameInList4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/playerName1"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/playerChipsCountTextInList4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/player1ChipCount"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/playerSettings4"
+                        android:layout_width="100sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginBottom="4sp"
+                        android:layout_weight="1"
+                        android:background="@color/bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cogwheel" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70sp"
+                    android:layout_marginTop="10sp"
+                    android:background="@color/bg"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/playerAvatarInList5"
+                        android:layout_width="124dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:layout_marginTop="5sp"
+                        android:layout_marginBottom="5sp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/default_player_avatar" />
+
+                    <LinearLayout
+                        android:layout_width="150sp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/playerNameInList5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2sp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@string/playerName1"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/playerChipsCountTextInList5"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/player1ChipCount"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/playerSettings5"
+                        android:layout_width="100sp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4sp"
+                        android:layout_marginBottom="4sp"
+                        android:layout_weight="1"
+                        android:background="@color/bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/cogwheel" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/playerSettings"
+            android:layout_width="270sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#001E1D22"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/transferTurn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Передать ход" />
+
+            <Button
+                android:id="@+id/changePosition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Изменить место игрока" />
+
+            <Button
+                android:id="@+id/changeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Изменить имя" />
+
+            <Button
+                android:id="@+id/editChipCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Изменить количество фишек" />
+
+            <Button
+                android:id="@+id/giveDealer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Передать диллера" />
+
+            <Button
+                android:id="@+id/kick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Выгнать из комнаты" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/passConfirmBg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -363,6 +774,7 @@
         android:background="@drawable/rounded_background"
         android:gravity="center"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/passConfirmBg"
         app:layout_constraintStart_toStartOf="parent"
