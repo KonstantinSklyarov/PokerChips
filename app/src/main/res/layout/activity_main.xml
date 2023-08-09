@@ -22,180 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/players"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="65dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/player1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/playerAvatar1"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:src="@drawable/default_player_avatar" />
-
-            <TextView
-                android:id="@+id/playerName1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/playerName1"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/chipCount1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/player1ChipCount"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/player2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3sp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/playerAvatar2"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:src="@drawable/default_player_avatar" />
-
-            <TextView
-                android:id="@+id/playerName2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/playerName2"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/chipCount2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/player2ChipCount"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/player3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3sp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/playerAvatar3"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:src="@drawable/default_player_avatar" />
-
-            <TextView
-                android:id="@+id/playerName3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/playerName3"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/chipCount3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/player3ChipCount"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/player4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3sp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/playerAvatar4"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:src="@drawable/default_player_avatar" />
-
-            <TextView
-                android:id="@+id/playerName4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/playerName4"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/chipCount4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/player4ChipCount"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/player5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3sp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/playerAvatar5"
-                android:layout_width="75sp"
-                android:layout_height="75sp"
-                android:src="@drawable/default_player_avatar" />
-
-            <TextView
-                android:id="@+id/playerName5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/playerName5"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/chipCount5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/player5ChipCount"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-    </LinearLayout>
-
     <TextView
         android:id="@+id/activTurn"
         android:layout_width="wrap_content"
@@ -344,18 +170,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/passConfirmBg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
-
     <LinearLayout
         android:id="@+id/passConfirm"
         android:layout_width="375sp"
@@ -405,7 +219,24 @@
                 android:textSize="34sp" />
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/passConfirmBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000">
+
+        </FrameLayout>
+
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/playersLayout"
+        android:layout_width="410sp"
+        android:layout_height="100sp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activTurn"></LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

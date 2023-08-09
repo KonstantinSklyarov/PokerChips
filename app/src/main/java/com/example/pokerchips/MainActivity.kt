@@ -15,19 +15,65 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.isVisible
+import androidx.core.view.marginLeft
 
 class MainActivity : AppCompatActivity() {
 
     var playerChipsCount: Int = 500
     var currentBet: Int = 0
-    var currentAnimation: ObjectAnimator? = null
     var currentBetText: TextView? = null
     var playerChipsCountText: TextView? = null
     var betChips = listOf<Chip>()
+
+    var players = ArrayDeque<OtherPlayer>()
+    var playerLayout: RelativeLayout? = null
+    fun placePlayers() {
+        playerLayout?.removeAllViews()
+        if (players.size > 5) {
+            var lastPlayer = players.removeLast()
+            playerLayout?.addView(players.last().panel)
+            playerLayout?.addView(lastPlayer.panel)
+            players.addLast(lastPlayer)
+            playerLayout?.addView(players.first().panel)
+            playerLayout?.addView(players[1].panel)
+            playerLayout?.addView(players[2].panel)
+        } else {
+            for (i in 0 until players.size) {
+                playerLayout?.addView(players.get(i).panel)
+            }
+        }
+    }
+
+    fun prepareMovePlayerLayout() {
+        var params = LinearLayout.LayoutParams((100 * players.size * betChips.get(0).scale).toInt(), (100 * betChips.get(0).scale).toInt())
+        playerLayout?.layoutParams = params
+        playerLayout?.x = -1 * (players.size - 5) * 100 * betChips.get(0).scale
+        playerLayout?.removeAllViews()
+        if (players.size > 5) {
+            //Добавили левый конец
+            for (i in 0 until players.size - 5) {
+                playerLayout?.addView(players.get(players.size - i).panel)
+            }
+            //Добавили тело
+            for (i in 0 until 5) {
+                playerLayout?.addView(players.get(i).panel)
+            }
+            //Добавим хвост
+            for (i in 5 until players.size) {
+                playerLayout?.addView(players.get(i).panel)
+            }
+        } else {
+            for (i in 0 until players.size) {
+                playerLayout?.addView(players.get(i).panel)
+            }
+        }
+    }
+
 
     fun refreshTextAfterBet() {
         currentBetText?.text = currentBet.toString()
@@ -58,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
         return false
     }
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -78,14 +125,16 @@ class MainActivity : AppCompatActivity() {
             chip50,
             chip100
         )
-
+        //TODO: Установить с сервера количество фишек
         playerChipsCountText?.text = playerChipsCount.toString()
 
-        fun betChip(chipValue: Int) {
-            currentBet += chipValue
-            playerChipsCount -= chipValue
-
+        //TODO: Настройка игроков
+        for (i in 0 until 5) {
+            players.add(OtherPlayer(chip5.imageDefault, "Player " + i.toString(), 500, this, 5))
         }
+        playerLayout = findViewById(R.id.playersLayout)
+        playerLayout?.setOnTouchListener(playerListOnTouchListener(this))
+        placePlayers()
 
 
         fun updateButtonStates() {
