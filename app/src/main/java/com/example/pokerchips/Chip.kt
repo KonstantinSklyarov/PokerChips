@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.ArrayList
 
 //Лошара ты
-class Chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int, var cLayout: LinearLayout) {
+open class Chip(var imageButton: ImageButton, var appCompatActivity: AppCompatActivity, var chipValue: Int, var cLayout: LinearLayout) {
 
     //Значение sp
     var scale = appCompatActivity.resources.displayMetrics.scaledDensity

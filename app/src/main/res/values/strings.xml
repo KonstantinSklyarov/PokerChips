@@ -12,18 +12,23 @@
     <string name="chips50">50</string>
     <string name="chips100">100</string>
     <string name="playerChipsCount">0</string>
-    <string name="player1ChipCount">500</string>
-    <string name="player2ChipCount">500</string>
-    <string name="player3ChipCount">500</string>
-    <string name="player4ChipCount">500</string>
+    <string name="player1ChipCount">100</string>
+    <string name="player2ChipCount">200</string>
+    <string name="player3ChipCount">300</string>
+    <string name="player4ChipCount">400</string>
     <string name="player5ChipCount">500</string>
-    <string name="playerName1">Даниил</string>
-    <string name="playerName2">Даниил</string>
-    <string name="playerName3">Даниил</string>
-    <string name="playerName4">Даниил</string>
-    <string name="playerName5">Даниил</string>
+    <string name="player6ChipCount">600</string>
+    <string name="playerName1">Ибрагим</string>
+    <string name="playerName2">Даня</string>
+    <string name="playerName3">Серёга</string>
+    <string name="playerName4">Саня</string>
+    <string name="playerName5">Лёха</string>
+    <string name="playerName6">Костя</string>
     <string name="passConfirm">Вы действительно хотите сбросить карты?</string>
     <string name="playersListText">Список игроков</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="remove">Remove</string>
 
 
 </resources>

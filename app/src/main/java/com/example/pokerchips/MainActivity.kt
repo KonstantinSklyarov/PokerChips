@@ -1,40 +1,46 @@
 package com.example.pokerchips
 
 import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.drawable.BitmapDrawable
-import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.view.MotionEvent
+import android.widget.CheckBox
 import android.widget.ImageButton
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GestureDetectorCompat
+import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pokerchips.databinding.ActivityMainBinding
+import com.example.pokerchips.model.UserActionListener
+import com.example.pokerchips.model.UsersAdapter
+import com.example.pokerchips.model.UsersService
+import com.example.pokerchips.model.User
+import com.example.pokerchips.model.UsersListener
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var adapter: UsersAdapter
 
+    private val usersService: UsersService
+        get() = (applicationContext as App).usersService
     //Лошара
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var transferTurnButton: Button = findViewById(R.id.transferTurn)
+        var changePlayerNumberButton: Button = findViewById(R.id.changePlayerNumber)
+        var changePlayerNameButton: Button = findViewById(R.id.changeName)
+        var editPlayerChipCountButton: Button = findViewById(R.id.editChipCount)
+        var giveDealerButton: Button = findViewById(R.id.giveDealer)
+        var kickButton: Button = findViewById(R.id.kick)
+        var backFromPlayerSettingsButton: Button = findViewById(R.id.backFromPlayerSettings)
         var playerChipsCount: Int = 500
         var currentBet: Int = 0
         var currentAnimation: ObjectAnimator? = null
@@ -48,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         val changeName: Button = findViewById(R.id.changeName)
         val editChipCount: Button = findViewById(R.id.editChipCount)
         val kick: Button = findViewById(R.id.kick)
-        val changeNameButton: Button = findViewById(R.id.changeName)
         val groupButton: ImageButton = findViewById(R.id.groupButton)
         val cLayout = findViewById<LinearLayout>(R.id.chips)
         val groupScreen: FrameLayout = findViewById(R.id.groupScreen)
@@ -56,17 +61,31 @@ class MainActivity : AppCompatActivity() {
         var playerChipsCountText: TextView = findViewById(R.id.playerChipsCountText)
         val passConfirm: LinearLayout = findViewById(R.id.passConfirm)
         val passConfirmBg: FrameLayout = findViewById(R.id.passConfirmBg)
-        val playerSettingsButton1 : ImageButton = findViewById(R.id.playerSettings1)
-        val playerSettingsButton2 : ImageButton = findViewById(R.id.playerSettings2)
-        val playerSettingsButton3 : ImageButton = findViewById(R.id.playerSettings3)
-        val playerSettingsButton4 : ImageButton = findViewById(R.id.playerSettings4)
-        val playerSettingsButton5 : ImageButton = findViewById(R.id.playerSettings5)
         val playersSettingsLayout: LinearLayout = findViewById(R.id.playerSettings)
-        var chip5 = chip(findViewById(R.id.bet5), this, 5, cLayout)
-        var chip10 = chip(findViewById(R.id.bet10), this, 10, cLayout)
-        var chip25 = chip(findViewById(R.id.bet25), this, 25, cLayout)
-        var chip50 = chip(findViewById(R.id.bet50), this, 50, cLayout)
-        var chip100 = chip(findViewById(R.id.bet100), this, 100, cLayout)
+        val playerNames = Array(5) { index ->
+            getString(resources.getIdentifier("playerName${index + 1}", "string", packageName))
+        }
+        val playerSettingsButtons: Array<ImageButton> = Array(5) { index ->
+            findViewById<ImageButton>(resources.getIdentifier("playerSettings${index + 1}", "id", packageName))
+        }
+
+        var player1 = player(1, getString(R.string.playerName1), getString(R.string.player1ChipCount).toInt(), true, true)
+        var player2 = player(2, getString(R.string.playerName2), getString(R.string.player2ChipCount).toInt(), false, false)
+        var player3 = player(3, getString(R.string.playerName3), getString(R.string.player3ChipCount).toInt(), false, false)
+        var player4 = player(4, getString(R.string.playerName4), getString(R.string.player4ChipCount).toInt(), false, false)
+        var player5 = player(5, getString(R.string.playerName5), getString(R.string.player5ChipCount).toInt(), false, false)
+        var player6 = player(6, getString(R.string.playerName6), getString(R.string.player6ChipCount).toInt(), false, false)
+        var activeSettingsPlayer: player = player1
+
+        val playerList = listOf(player1, player2, player3, player4, player5, player6)
+
+
+
+        var chip5 = Chip(findViewById(R.id.bet5), this, 5, cLayout)
+        var chip10 = Chip((findViewById(R.id.bet10)), this, 10, cLayout)
+        var chip25 = Chip(findViewById(R.id.bet25), this, 25, cLayout)
+        var chip50 = Chip(findViewById(R.id.bet50), this, 50, cLayout)
+        var chip100 = Chip(findViewById(R.id.bet100), this, 100, cLayout)
 
         val betChips = listOf(
             chip5,
@@ -76,13 +95,7 @@ class MainActivity : AppCompatActivity() {
             chip100
         )
 
-        var playerSettingsButtons = listOf(
-            playerSettingsButton1,
-            playerSettingsButton2,
-            playerSettingsButton3,
-            playerSettingsButton4,
-            playerSettingsButton5
-        )
+        var playerSettingsFunctionsButtons =  listOf(transferTurnButton, changePlayerNumberButton, changePlayerNameButton, editPlayerChipCountButton, giveDealerButton, kickButton, backFromPlayerSettingsButton)
 
         fun updateButtonStates() {
             for (chip in betChips)  {
@@ -191,6 +204,14 @@ class MainActivity : AppCompatActivity() {
             centerButton.text = "Райз $$currentBet"
         }
 
+        fun setupButtonChangeNameListeners() {
+            var index = 0
+            for (playerName in playerNames){
+
+            }
+
+        }
+
         fun setupButtonChipClickListeners() {
             try {
                 for (chip in betChips) {
@@ -253,7 +274,7 @@ class MainActivity : AppCompatActivity() {
         leftButton.setOnClickListener {
             playerChipsCount += currentBet
             currentBet = 0
-            betChips.map { c: chip -> c.clearChip() }
+            betChips.map { c: Chip -> c.clearChip() }
             refreshTextAfterBet()
             updateButtonStates()
             refreshTextAfterBet()
@@ -261,14 +282,47 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        fun setupPlayerSettningsButtonsClickListners() {
-            for (playerSettingsButton in playerSettingsButtons) {
-                playerSettingsButton.setOnClickListener{
+        fun setupPlayerSettingsButtonsClickListeners() {
+            for ((index, playerSettingsButton) in playerSettingsButtons.withIndex()) {
+                playerSettingsButton.setOnClickListener {
+                    activeSettingsPlayer = playerList[index] //При нажатии на кнопку приложение запоминает номер игрока, возле которого эти настройки нажали. Все кнопки в настройках получают номер этого игрока и работают с ним
                     togglePlayersSettingsLayoutVisibility()
                 }
             }
         }
-        setupPlayerSettningsButtonsClickListners()
+
+        fun setupButtonPlayerSettingsFunctionClickListeners() {
+            transferTurnButton.setOnClickListener {
+                activeSettingsPlayer.setPlayerCurrentTurn(true)
+                // TODO: Убрать активный ход у активного игрока
+            }
+            changePlayerNameButton.setOnClickListener {
+                // TODO: Сделать всплывающее окно, в котором можно выбрать имя игрока и вызвать функцию activeSettingsPlayer.setPlayerName(новое имя)
+            }
+            changePlayerNumberButton.setOnClickListener {
+                // TODO: Сделать всплывающее окно, в котором можно выбрать номер игрока и вызвать функцию activeSettingsPlayer.setPlayerNumber(выбранный номер)
+            }
+            editChipCount.setOnClickListener {
+                // TODO: Сделать всплывающее окно, в котором можно выбрать количество фишек игрока и вызвать функцию activeSettingsPlayer.setPlayerChipCount(новое количество фишек)
+            }
+            giveDealerButton.setOnClickListener {
+                toggleGroupScreenVisibility()
+                togglePlayersSettingsLayoutVisibility()
+                // TODO: Убрать диллера у игрока
+            }
+            kickButton.setOnClickListener {
+                // TODO: Реплизовать удаление игрока из лобби
+            }
+            backFromPlayerSettingsButton.setOnClickListener {
+                activeSettingsPlayer = player1
+                togglePlayersSettingsLayoutVisibility()
+            }
+        }
+        setupButtonPlayerSettingsFunctionClickListeners()
+
+
+
+        setupPlayerSettingsButtonsClickListeners()
 
         centerButton.setOnClickListener {
 
@@ -327,10 +381,40 @@ class MainActivity : AppCompatActivity() {
             toggleGroupScreenVisibility()
         }
 
-        changeNameButton.setOnClickListener {
+        fun changePlayerName(player: player) {
 
         }
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        adapter = UsersAdapter(object : UserActionListener {
+            override fun onUserMove(user: User, moveBy: Int) {
+                usersService.moveUser(user, moveBy)
+            }
+
+            override fun onUserDelete(user: User) {
+                usersService.deleteUser(user)
+            }
+
+            override fun onUserDetails(user: User) {
+                Toast.makeText(this@MainActivity, "User: ${user.name}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = adapter
+
+        usersService.addListener(usersListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        usersService.removeListener(usersListener)
+    }
+
+    private val usersListener: UsersListener = {
+        adapter.users = it
     }
 }

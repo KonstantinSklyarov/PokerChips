@@ -3,7 +3,8 @@ package com.example.pokerchips
 import android.annotation.SuppressLint
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageButton
+import com.example.pokerchips.MainActivity
+
 
 class ChipOnTouchListener(val chip: Chip, val mainActivity: MainActivity) : View.OnTouchListener {
     private fun wasSwipedUp(event: MotionEvent): Boolean {
@@ -30,7 +31,7 @@ class ChipOnTouchListener(val chip: Chip, val mainActivity: MainActivity) : View
                 MotionEvent.ACTION_UP -> {
                     // Палец отпущен от кнопки (конец касания)
                     chip.imageButton.alpha = 1f
-                    if (mainActivity.betChip(chip)) {
+                    if (true) {
                         chip.movingToCenter()
                     } else {
                         chip.imageButton.alpha = 0.5f
