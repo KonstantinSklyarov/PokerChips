@@ -5,7 +5,7 @@
     <string name="pass">Пас</string>
     <string name="currentBet">0</string>
     <string name="chipsCount">Фишке в наличии</string>
-    <string name="activTurn">Ваш ход!</string>
+    <string name="activTurn">Ход игрока</string>
     <string name="chip1">5</string>
     <string name="chip10">10</string>
     <string name="chips25">25</string>
